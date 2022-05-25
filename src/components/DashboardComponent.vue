@@ -1,7 +1,8 @@
 <template lang="pug">
 section.grid-stack
   .grid-stack-item
-    MyActionableDocumentsWidget.grid-stack-item-content
+    .grid-stack-item-content
+      MyActionableDocumentsWidget
       
   .grid-stack-item
     .grid-stack-item-content

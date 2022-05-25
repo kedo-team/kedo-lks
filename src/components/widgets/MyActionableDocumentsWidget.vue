@@ -9,10 +9,46 @@ q-card
 
   //- CONTENT
   q-card-section
-    q-table.sticky-header-table(:rows    = "rows", 
+    h1(v-if="loading") loading...
+    h1(v-else-if="error") {{ error }}
+    q-table(v-if="result").sticky-header-table(:rows = "result.documents.nodes", 
                                 :columns = "columns",
-                                row-key  = "name",
+                                row-key  = "id",
+                                :loading="loading"
                                 flat, bordered)
+      //- LOADING
+      template(v-slot="loading")
+        q-inner-loading(showing color="primary")
+      
+      //- NO DATA
+      template(v-slot:no-data="{ icon, message }")
+        .full-width.row.flex-center.text-accent.q-gutter-sm
+          q-icon(size="2em", name="sentiment_ssatisfied")
+          span Well this is sad... {{ message }}
+      
+      //- CELL TEMPLATE - documentTypeId
+      template(v-slot:body-cell-documentTypeId="props")
+        q-td(:props="props")
+            q-badge(color="green") {{ props.value }}
+      
+      //- CELLTEMPLATE - createdByUser
+      template(v-slot:body-cell-createdByUser="props")
+        q-td(:props="props")
+          q-chip
+            q-avatar
+              img(:src="props.value.avatarUrl")
+            | {{ `${props.value.lastName} ${props.value.firstName}` }}
+      
+
+      //- template(v-slot:body="props")
+        q-tr(:props="props")
+          q-td(key="createdAt", :props="props") {{ getLocalDate(props.row.createdAt) }}
+          q-td(key="title", :props="props") {{ props.row.title }}
+          q-td(key="createdByUser", :props="props") 
+            a(href="#")
+            |  {{ `${props.row.createdByUser.lastName} ${props.row.createdByUser.firstName}` }}
+          q-td(key="documentTypeId", :props="props")
+            q-badge(color="green") {{ props.row.documentTypeId }}
 </template>
 
 <style lang="sass">
@@ -39,125 +75,67 @@ q-card
 </style>
 
 <script setup lang="ts">
-const columns = [
+
+import gql from 'graphql-tag';
+import { useQuery } from '@vue/apollo-composable';
+import { QTable } from 'quasar';
+
+const columns: any[] = [
   {
-    name: 'income_date',
+    name: 'createdAt',
     required: true,
     label: 'Дата поступления',
     align: 'left',
-    field: row => row.name,
-    format: val => `${val}`,
+    field: 'createdAt',
+    format: (val: any) => getLocalDate(val),    
     sortable: true
   },
-  { name: 'reporter', align: 'center', label: 'Направлен от', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-  { name: 'protein', label: 'Protein (g)', field: 'protein' },
-  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-]
+  {
+    name: 'documentTypeId',
+    label: 'Тип',
+    field: 'documentTypeId',
+    align: 'left'
+  },
+  { 
+    name: 'title', 
+    align: 'left',
+    label: 'Заголовок',
+    field: 'title',
+  },
+  {
+    name: 'createdByUser',
+    label: 'Создан',
+    field: 'createdByUser',
+    align: 'center'
+  },
+];
 
-const rows = [
-  {
-    name: 'Frozen Yogurt',
-    calories: 159,
-    fat: 6.0,
-    carbs: 24,
-    protein: 4.0,
-    sodium: 87,
-    calcium: '14%',
-    iron: '1%'
-  },
-  {
-    name: 'Ice cream sandwich',
-    calories: 237,
-    fat: 9.0,
-    carbs: 37,
-    protein: 4.3,
-    sodium: 129,
-    calcium: '8%',
-    iron: '1%'
-  },
-  {
-    name: 'Eclair',
-    calories: 262,
-    fat: 16.0,
-    carbs: 23,
-    protein: 6.0,
-    sodium: 337,
-    calcium: '6%',
-    iron: '7%'
-  },
-  {
-    name: 'Cupcake',
-    calories: 305,
-    fat: 3.7,
-    carbs: 67,
-    protein: 4.3,
-    sodium: 413,
-    calcium: '3%',
-    iron: '8%'
-  },
-  {
-    name: 'Gingerbread',
-    calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    protein: 3.9,
-    sodium: 327,
-    calcium: '7%',
-    iron: '16%'
-  },
-  {
-    name: 'Jelly bean',
-    calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    protein: 0.0,
-    sodium: 50,
-    calcium: '0%',
-    iron: '0%'
-  },
-  {
-    name: 'Lollipop',
-    calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    protein: 0,
-    sodium: 38,
-    calcium: '0%',
-    iron: '2%'
-  },
-  {
-    name: 'Honeycomb',
-    calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    protein: 6.5,
-    sodium: 562,
-    calcium: '0%',
-    iron: '45%'
-  },
-  {
-    name: 'Donut',
-    calories: 452,
-    fat: 25.0,
-    carbs: 51,
-    protein: 4.9,
-    sodium: 326,
-    calcium: '2%',
-    iron: '22%'
-  },
-  {
-    name: 'KitKat',
-    calories: 518,
-    fat: 26.0,
-    carbs: 65,
-    protein: 7,
-    sodium: 54,
-    calcium: '12%',
-    iron: '6%'
+const QueryUserActiveDocuments = gql`
+  query QueryUserActiveDocuments {
+    documents {
+      nodes {
+        id
+        documentTypeId
+        title
+        createdAt
+        createdByUser {
+          id
+          firstName
+          lastName
+          avatarUrl
+        }
+      }
+    }
   }
-]
+`;
+
+const { result, loading, error } = useQuery(QueryUserActiveDocuments);
+// const rows = result.query.activeDocuments.nodes;
+
+function getLocalDate(val: string): string {
+  const date = new Date(val);
+  return date.toLocaleDateString("ru-RU");
+}
+  
+
 </script>
