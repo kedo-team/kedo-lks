@@ -3,10 +3,10 @@ section.grid-stack
   .grid-stack-item
     .grid-stack-item-content
       MyActionableDocumentsWidget
-      
+  
   .grid-stack-item
     .grid-stack-item-content
-      MyActionableDocumentsWidget
+      TestWidget
 </template>
 
 <style lang="scss">
@@ -21,12 +21,10 @@ import { GridStack } from 'gridstack';
 import 'gridstack/dist/gridstack.min.css';
 import 'gridstack/dist/h5/gridstack-dd-native';
 import MyActionableDocumentsWidget from './widgets/MyActionableDocumentsWidget.vue';
+import TestWidget from './widgets/TestWidget.vue';
 
 // grid instance for widget-like dashboard
 let _grid: GridStack;
-
-const myComponent = h(MyActionableDocumentsWidget);
-console.log(myComponent);
 
 onMounted(() => {
   _initGrid();
