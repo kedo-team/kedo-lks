@@ -80,6 +80,9 @@ import gql from 'graphql-tag';
 import { useQuery } from '@vue/apollo-composable';
 import { QTable } from 'quasar';
 
+let shortName = "Документы мне на подпись";
+let description = "Большое и длинное описание нового виджета Мои документы";
+
 const columns: any[] = [
   {
     name: 'createdAt',

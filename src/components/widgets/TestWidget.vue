@@ -5,21 +5,25 @@ q-card(style="background-color: antiquewhite;")
     .row
       .col.text-h6 Тестовый плагин
       q-icon.no-wrap.col-auto(name="fullscreen")
-    .text-subtitle2 {{ mode }}
 
   //- CONTENT
-  q-card-section
-    pre(v-if="result") {{ result }}
-    pre(v-if="error") {{ error }}
-    
+  //- q-card-section
+  //-   pre(v-if="result") {{ result }}
+  //-   pre(v-if="error") {{ error }}
+
 </template>
 
 <script setup lang="ts">
-
 import gql from 'graphql-tag';
 import { useQuery } from '@vue/apollo-composable';
 
-const mode = import.meta.env.VITE_MY_VAR;
+
+
+// const setDescrpition = inject(IK_SetWidgetDescription);
+// if (setDescrpition) {
+//   console.log('try inject');
+//   setDescrpition("Изнутри пишу тебе", "Не буду долго себя описывать");
+// }
 
 const QueryUserActiveDocuments = gql`
   query QueryUserActiveDocuments {
@@ -41,6 +45,5 @@ const QueryUserActiveDocuments = gql`
   `;
 
 let { result, loading, error } = useQuery(QueryUserActiveDocuments);
-console.log(result);
 
 </script>
