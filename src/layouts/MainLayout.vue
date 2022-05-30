@@ -1,116 +1,49 @@
-<template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+<template lang="pug">
+q-layout(view='hhh Lpr lFf')
+  q-header(elevated)
+    q-toolbar
+      q-btn(flat dense round icon='menu' aria-label='Menu' @click='toggleLeftDrawer')
+      .spacer
+      q-avatar
+        q-img(src="/logo-title.png")
+      q-toolbar-title {{ app_title }}
+      q-space
+      q-btn(flat round dense)
+        q-icon(name="more_vert")
+        UserMenu(@global-action="onGlobalAction")
+  q-drawer.bg-primary(v-model='leftDrawerOpen' show-if-above bordered elevated)
+    LeftDrawerMenu
+  q-page-container
+    q-breadcrumbs.text-gray(active-color="purple")
+      q-breadcrumbs-el(label="Домой"
+                       to="/"
+                       icon="home")
+      q-breadcrumbs-el(label="дочерняя страница"
+                       icon="widgets")
+    h1 Заголовок
+    router-view
 
-        <q-toolbar-title>
-          Quasar App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-    </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
-      <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
-
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-  </q-layout>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
-import EssentialLink from 'components/EssentialLink.vue';
+<script setup lang="ts">
+import { ref } from 'vue';
+import UserMenu from './UserMenu.vue';
+import { useUser } from 'src/stores/user';
+import LeftDrawerMenu from './LeftDrawerMenu.vue';
+import { useRoute } from 'vue-router';
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-];
+const route = useRoute();
+console.log(route);
 
-export default defineComponent({
-  name: 'MainLayout',
+const app_title = import.meta.env.VITE_APP_TITLE
 
-  components: {
-    EssentialLink
-  },
+const leftDrawerOpen = ref(false)
+function toggleLeftDrawer () {
+      leftDrawerOpen.value = !leftDrawerOpen.value
+}
 
-  setup () {
-    const leftDrawerOpen = ref(false)
-
-    return {
-      essentialLinks: linksList,
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
-});
+const user = useUser();
+function onGlobalAction() {
+  user.isLayoutInEditMode = true;  
+}
 </script>

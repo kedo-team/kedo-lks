@@ -10,7 +10,8 @@ export const useUser = defineStore('userStore', {
     firstName: "",
     lastName: "",
     avatarUrl: "",
-    jwt: ""
+    jwt: "",
+    isLayoutInEditMode: false
   }),
 
   actions: {
@@ -45,6 +46,7 @@ interface IUserStore {
   lastName: string,
   avatarUrl: string,
   jwt: string,
+  isLayoutInEditMode: boolean,
   layout?: ILayout | null
 };
 

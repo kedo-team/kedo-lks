@@ -2,10 +2,16 @@
 
 .grid-stack-item(:id="domId", :gs-id="domId")
     .grid-stack-item-content
-        div domId {{ domId }}
         slot No content defined
 
 </template>
+<style scoped lang="sass">
+.grid-stack 
+  background-color: $kedo-light-gray
+.grid-stack-item-content
+  background-color: $kedo-white
+
+</style>
 
 <script setup lang="ts">
 import { ref, provide, onMounted } from 'vue';
