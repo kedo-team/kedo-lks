@@ -1,18 +1,22 @@
 import { RouteRecordRaw } from 'vue-router';
 import { getRoutes } from 'src/plugins/PluginManager';
 import RequestForVacationPage from '../plugins/RequestForVacationPlugin/pages/RequestForVacationPage.vue';
+import { isMemberExpressionBrowser } from '@vue/compiler-core';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('../pages/DashboardViewPage.vue')
+    component: () => import('../pages/BasePage.vue'),
+    children: [{
+      path: '',
+      component: () => import('../pages/DashboardViewPage.vue')
+    }]
+    // component: () => import('../pages/DashboardViewPage.vue')
     // children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
   }
 ];
 
-/* TODO: not so elegant solution
- */
-routes.push(...getRoutes());
+routes[0]?.children?.push(...getRoutes());
 routes.push(  
 // Always leave this as last one,
 // but you can also remove it
@@ -20,7 +24,5 @@ routes.push(
   path: '/:catchAll(.*)*',
   component: () => import('pages/ErrorNotFound.vue'),
 })
-
-console.log(routes);
 
 export default routes;
