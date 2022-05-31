@@ -5,7 +5,7 @@ q-page
         q-breadcrumbs-el(label="Домой"
                         to="/"
                         icon="home")
-        q-breadcrumbs-el(:label="route.meta.title"
+        q-breadcrumbs-el(:label="(route.meta.title as string)"
                         icon="widgets")
     .row.q-pa-lg(v-if="route.meta.title")
       .text-h2.q-pb-lg {{ route.meta.title }}
