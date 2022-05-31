@@ -1,11 +1,8 @@
-<template>
-  <router-view />
+<template lang="pug">
+MainLayout
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import MainLayout from './layouts/MainLayout.vue';
 
-export default defineComponent({
-  name: 'App'
-});
 </script>

@@ -5,8 +5,8 @@ import RequestForVacationPage from '../plugins/RequestForVacationPlugin/pages/Re
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    component: () => import('../pages/DashboardViewPage.vue')
+    // children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
   }
 ];
 

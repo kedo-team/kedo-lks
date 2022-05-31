@@ -56,13 +56,13 @@ section.grid-stack
 import { shallowRef, onMounted , ref} from 'vue';
 import { uid } from 'quasar';
 import { GridStack, GridStackNode } from 'gridstack';
-import WidgetPreview from './widgets/WidgetPreview.vue';
+import WidgetPreview from '../components/widgets/WidgetPreview.vue';
 import 'gridstack/dist/gridstack.min.css';
 import 'gridstack/dist/h5/gridstack-dd-native';
 import { useUser } from 'src/stores/user';
-import WidgetComponent from './widgets/WidgetComponent.vue';
-import MyActionableDocumentsWidget from './widgets/MyActionableDocumentsWidget.vue';
-import TestWidget from './widgets/TestWidget.vue';
+import WidgetComponent from '../components/widgets/WidgetComponent.vue';
+import MyActionableDocumentsWidget from '../components/widgets/MyActionableDocumentsWidget.vue';
+import TestWidget from '../components/widgets/TestWidget.vue';
 
 import { getWidgetList } from '../plugins/PluginManager';
 const widgets_list = getWidgetList();
