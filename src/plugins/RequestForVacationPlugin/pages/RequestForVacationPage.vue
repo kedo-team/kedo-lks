@@ -1,7 +1,5 @@
 <template lang="pug">
-
-q-page
-  h1 Заявление на отпуск
+div Контент
 
 </template>
 

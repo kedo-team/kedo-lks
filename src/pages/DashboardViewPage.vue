@@ -63,10 +63,9 @@ import { useUser } from 'src/stores/user';
 import WidgetComponent from '../components/widgets/WidgetComponent.vue';
 import MyActionableDocumentsWidget from '../components/widgets/MyActionableDocumentsWidget.vue';
 import TestWidget from '../components/widgets/TestWidget.vue';
-
 import { getWidgetList } from '../plugins/PluginManager';
+
 const widgets_list = getWidgetList();
-console.log(widgets_list);
 
 // grid instance for widget-like dashboard
 let _grid: GridStack;

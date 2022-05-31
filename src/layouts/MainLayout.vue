@@ -14,13 +14,6 @@ q-layout(view='hhh Lpr lFf')
   q-drawer.bg-primary(v-model='leftDrawerOpen' show-if-above bordered elevated)
     LeftDrawerMenu
   q-page-container
-    q-breadcrumbs.text-gray(active-color="purple")
-      q-breadcrumbs-el(label="Домой"
-                       to="/"
-                       icon="home")
-      q-breadcrumbs-el(label="дочерняя страница"
-                       icon="widgets")
-    h1 Заголовок
     router-view
 
 </template>
@@ -33,7 +26,6 @@ import LeftDrawerMenu from './LeftDrawerMenu.vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-console.log(route);
 
 const app_title = import.meta.env.VITE_APP_TITLE
 
